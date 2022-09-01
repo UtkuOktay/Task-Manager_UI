@@ -1,0 +1,89 @@
+#editMain {
+    background-color: white;
+    position: relative;
+    margin: auto;
+    width: 50vmin;
+}
+
+#form1 {
+    position: relative;
+    margin: auto;
+    width: 40vmin;
+    height: 20vh;
+}
+
+h1 {
+    text-align: center;
+}
+
+#editElements {
+    position: relative;
+    margin: auto;
+    width: 40vmin;
+    height: 15vh;
+}
+#labels {
+    float: left;
+    background-color: white;
+}
+
+#inputElements {
+    float: left;
+    margin-left: 5vw;
+    background-color: white;
+}
+
+.editLabel {
+    display: block;
+    margin-top: 2vh;
+}
+
+.editTextbox {
+    display: block;
+    margin-top: 2vh;
+}
+
+#editSubmitButton {
+    position: relative;
+    width: 100%;
+    background-color: rgb(77, 70, 172);
+    color: white;
+    font-weight: lighter;
+    cursor: pointer;
+    height: 1.65em;
+    border: none;
+    text-align: center;
+    font-size: 115%;
+    border-radius: 3px;
+}
+
+#editSubmitButton:hover {
+    background-color: rgb(120, 112, 219);
+}
+
+#returnToHomeButton {
+    position: relative;
+    margin-top: 3vh;
+    margin-left: 40%;
+    width: 20%;
+    background-color: rgb(40, 40, 40);
+    color: white;
+    font-weight: lighter;
+    cursor: pointer;
+    height: 1.65em;
+    border: none;
+    text-align: center;
+    font-size: 115%;
+    border-radius: 3px;
+}
+
+#returnToHomeButton:hover {
+    background-color: rgb(80, 80, 80);
+}
+
+#infoMessage {
+    text-align: center;
+    margin-top: 15vh;
+    margin-bottom: 5vh;
+    font-size: 150%;
+}

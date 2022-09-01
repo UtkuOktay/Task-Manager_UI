@@ -1,0 +1,3 @@
+<app-main-dashboard></app-main-dashboard>
+<app-task-list-item *ngFor="let task of tasks" [task]="task"></app-task-list-item>
+<span id="noTaskMessage" *ngIf="tasks && tasks.length == 0">No Tasks In Your List.</span>

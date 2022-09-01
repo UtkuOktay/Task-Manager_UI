@@ -1,0 +1,10 @@
+<div id="mainDashboard">
+    <h1 id="dashboardHeader">Task Manager</h1>
+    <div id="searchBar">
+        <form (ngSubmit)="submitButtonClick()">
+            <input id="taskToBeAdded" type="text" [(ngModel)]="taskName" name="nameOfTaskToBeAdded" placeholder="Enter a task...">
+            <button id="submitButton" type="submit">Submit</button>
+        </form>
+    </div>
+    <span id="infoMessage" *ngIf="newItemAdded">Success, Task Added</span>
+</div>

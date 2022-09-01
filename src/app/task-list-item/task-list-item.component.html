@@ -1,0 +1,5 @@
+<div id="taskListItem" *ngIf="task">
+    <span id="taskName" [ngClass]="{completedTask: task.isCompleted}">{{task.name}}</span>
+    <span id="deleteButton"><a (click)="deleteButtonClick()">Delete</a></span>
+    <span id="editButton"><a (click)="routeToEditPage()">Edit</a></span>
+</div>

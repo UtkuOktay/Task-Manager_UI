@@ -1,0 +1,38 @@
+#taskListItem {
+    background-color: white;
+    position: relative;
+    margin: auto;
+    max-width: 96vmin;
+    height: 7vh;
+    margin-top: 2vh;
+    box-shadow: 2px 2px 10px rgb(170, 170, 170);
+    border-radius: 1vmin;
+}
+
+#taskName {
+    position: absolute;
+    padding: 3%;
+}
+
+#editButton {
+    float: right;
+    padding-top: 3%;
+}
+
+#deleteButton {
+    float: right;
+    padding: 3%;
+}
+
+a {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.completedTask {
+    text-decoration: line-through;
+}

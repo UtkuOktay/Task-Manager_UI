@@ -1,0 +1,20 @@
+<div id="editMain" *ngIf="task">
+    <h1>Edit Task</h1>
+    <form id="form1">
+        <div id="editElements">
+            <div id="labels">
+                <label id="ID" class="editLabel">Task ID</label>
+                <label id="name" class="editLabel">Name</label>
+                <label id="isCompleted" class="editLabel">Completed</label>
+            </div>
+            <div id="inputElements">
+                <label id="IDTextbox" class="editTextbox">{{task.id}}</label>
+                <input type="text" id="nameTextbox" class="editTextbox" [(ngModel)]="name" [ngModelOptions]="{standalone: true}">
+                <input type="checkbox" id="isCompletedTextbox" class="editTextbox" [(ngModel)]="isCompleted" [ngModelOptions]="{standalone: true}">
+            </div>
+        </div>
+        <button id="editSubmitButton" type="submit" (click)="submit()">Save</button>
+    </form>
+</div>
+<div id="infoMessage" *ngIf="!task">There is no record with the provided ID.</div>
+<button id="returnToHomeButton" (click)="routeToHomePage()">Return to Home</button>
