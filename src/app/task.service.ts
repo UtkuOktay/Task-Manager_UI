@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { MainDashboardComponent, State } from './main-dashboard/main-dashboard.component';
 import { TaskRecord } from './TaskRecord';
 
 @Injectable({
@@ -22,7 +24,7 @@ export class TaskService {
     return tasks;
   }
 
-  findTask(id: number) {
+  findTask(id: number): TaskRecord | undefined {
     let value = localStorage.getItem(String(id));
     if (value == undefined)
       return;
@@ -35,7 +37,13 @@ export class TaskService {
   }
 
   addTask(taskName: string) {
-    localStorage.setItem(String(this.getGreatestId() + 1), taskName + ',0');
+    let task: TaskRecord = new TaskRecord(this.getGreatestId() + 1, taskName, false);
+    localStorage.setItem(String(task.id), taskName + ',0');
+
+    if (this.taskExists(task))
+      MainDashboardComponent.state = State.newItemAdded;
+    else
+      MainDashboardComponent.state = State.error;
   }
 
   updateTask(task: TaskRecord) {
@@ -50,10 +58,19 @@ export class TaskService {
       isCompletedString = '1';
 
     localStorage.setItem(String(task.id), task.name + ',' + isCompletedString);
+
+    if (this.taskExists(task))
+      MainDashboardComponent.state = State.itemUpdated;
+    else
+      MainDashboardComponent.state = State.error;
   }
 
   deleteTask(id: number) {
     localStorage.removeItem(String(id));
+    if (this.findTask(id) == undefined)
+      MainDashboardComponent.state = State.itemDeleted;
+    else
+      MainDashboardComponent.state = State.error;
   }
 
   private parseTask(id: number, value: string): TaskRecord | undefined {
@@ -74,6 +91,15 @@ export class TaskService {
       return;
 
     return new TaskRecord(id, name, isCompleted);
+  }
+  
+  taskExists(task: TaskRecord): boolean {
+    let existingTask = this.findTask(task.id);
+    
+    if (existingTask == undefined)
+      return false;
+    
+    return task.equals(existingTask);
   }
 
   private getGreatestId(): number {
