@@ -8,7 +8,7 @@ import { TaskRecord } from './TaskRecord';
 })
 export class TaskService {
 
-  getTasks(): TaskRecord[] {
+  getTasks(): Observable<TaskRecord[]> {
     let tasks: TaskRecord[] = [];
     for (let key of Object.keys(localStorage)) {
       let value = localStorage.getItem(key);
@@ -21,36 +21,34 @@ export class TaskService {
       
       tasks.push(task);
     }
-    return tasks;
+    return of(tasks);
   }
 
-  findTask(id: number): TaskRecord | undefined {
+  findTask(id: number): Observable<TaskRecord | undefined> {
     let value = localStorage.getItem(String(id));
     if (value == undefined)
-      return;
+      return of(undefined);
 
       let task = this.parseTask(id, value);
-      if (task == undefined)
-        return;
+      if (task === undefined)
+    
+        return of(undefined);
 
-    return task;
+    return of(task);
   }
 
-  addTask(taskName: string) {
+  addTask(taskName: string): Observable<boolean> {
     let task: TaskRecord = new TaskRecord(this.getGreatestId() + 1, taskName, false);
     localStorage.setItem(String(task.id), taskName + ',0');
 
-    if (this.taskExists(task))
-      MainDashboardComponent.state = State.newItemAdded;
-    else
-      MainDashboardComponent.state = State.error;
+    return of(this.taskExists(task));
   }
 
-  updateTask(task: TaskRecord) {
+  updateTask(task: TaskRecord): Observable<boolean> {
     let existingTask = localStorage.getItem(String(task.id));
 
     if (existingTask == null)
-      return;
+      return of(false);
 
     let isCompletedString = '0';
 
@@ -59,18 +57,12 @@ export class TaskService {
 
     localStorage.setItem(String(task.id), task.name + ',' + isCompletedString);
 
-    if (this.taskExists(task))
-      MainDashboardComponent.state = State.itemUpdated;
-    else
-      MainDashboardComponent.state = State.error;
+    return of(this.taskExists(task));
   }
 
-  deleteTask(id: number) {
+  deleteTask(id: number): Observable<boolean> {
     localStorage.removeItem(String(id));
-    if (this.findTask(id) == undefined)
-      MainDashboardComponent.state = State.itemDeleted;
-    else
-      MainDashboardComponent.state = State.error;
+    return of(!this.taskExists(new TaskRecord(id, '', false))); //Name and isCompleted are not important and therefore any value here should be OK.
   }
 
   private parseTask(id: number, value: string): TaskRecord | undefined {
@@ -93,22 +85,32 @@ export class TaskService {
     return new TaskRecord(id, name, isCompleted);
   }
   
-  taskExists(task: TaskRecord): boolean {
-    let existingTask = this.findTask(task.id);
-    
-    if (existingTask == undefined)
+  private taskExists(task: TaskRecord): boolean {
+    let value = localStorage.getItem(String(task.id));
+    if (value == undefined)
       return false;
-    
+
+    let existingTask = this.parseTask(task.id, value);
+    if (existingTask === undefined)
+      return false;
+      
     return task.equals(existingTask);
   }
 
   private getGreatestId(): number {
     let greatest: number = 0;
+    
+    this.getTasks().subscribe((tasks) => {
+        for (const task of tasks) {
+          if (greatest < task.id)
+            greatest = task.id;
+        }
+    })
 
-    for (const task of this.getTasks()) {
-      if (greatest < task.id)
-        greatest = task.id;
-    }
+    // for (const task of this.getTasks()) {
+    //   if (greatest < task.id)
+    //     greatest = task.id;
+    // }
 
     return greatest;
   }

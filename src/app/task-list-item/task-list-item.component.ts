@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HomeComponent } from '../home/home.component';
+import { MainDashboardComponent, State } from '../main-dashboard/main-dashboard.component';
 import { TaskService } from '../task.service';
 import { TaskRecord } from '../TaskRecord';
 
@@ -20,7 +21,14 @@ export class TaskListItemComponent implements OnInit {
     if (this.task == null)
       return;
     
-    this.taskService.deleteTask(this.task.id);
+    this.taskService.deleteTask(this.task.id).subscribe(result => {
+      if (result)
+        MainDashboardComponent.state = State.itemDeleted;
+      else
+        MainDashboardComponent.state = State.error;
+    })
+    
+      
     this.homeComponent.loadTasks();
   }
 

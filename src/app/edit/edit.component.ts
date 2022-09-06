@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TaskRecord } from '../TaskRecord';
 import { TaskService } from '../task.service';
+import { MainDashboardComponent, State } from '../main-dashboard/main-dashboard.component';
 
 @Component({
   selector: 'app-edit',
@@ -21,20 +22,29 @@ export class EditComponent implements OnInit {
     if (param == null)
       return;
     
-    let queriedTask = this.taskService.findTask(parseInt(param));
-    if (queriedTask == undefined)
-      return;
+    this.taskService.findTask(parseInt(param)).subscribe((queriedTask) => {
+      if (queriedTask == undefined)
+        return;
     
-    this.task = queriedTask;
-    this.name = this.task?.name;
-    this.isCompleted = this.task?.isCompleted;
+      this.task = queriedTask;
+      this.name = this.task?.name;
+      this.isCompleted = this.task?.isCompleted;
+    });
+    
   }
 
   submit(): void {
     if (this.task == undefined || this.name == undefined || this.isCompleted == undefined)
       return;
+      
+    this.taskService.updateTask(new TaskRecord(this.task?.id, this.name, this.isCompleted)).subscribe(result => {
+      if (result)
+        MainDashboardComponent.state = State.itemUpdated;
+      else
+        MainDashboardComponent.state = State.error;
+    })
     
-    this.taskService.updateTask(new TaskRecord(this.task?.id, this.name, this.isCompleted));
+
     this.routeToHomePage();
   }
 
