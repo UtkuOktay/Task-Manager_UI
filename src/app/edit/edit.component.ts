@@ -26,7 +26,7 @@ export class EditComponent implements OnInit {
       if (queriedTask == undefined)
         return;
     
-      this.task = queriedTask;
+      this.task = JSON.parse(JSON.stringify(queriedTask));
       this.name = this.task?.name;
       this.isCompleted = this.task?.isCompleted;
     });
@@ -37,15 +37,13 @@ export class EditComponent implements OnInit {
     if (this.task == undefined || this.name == undefined || this.isCompleted == undefined)
       return;
       
-    this.taskService.updateTask(new TaskRecord(this.task?.id, this.name, this.isCompleted)).subscribe(result => {
-      if (result)
+    this.taskService.updateTask(new TaskRecord(this.task?.id, this.name, this.isCompleted)).subscribe(response => {
+      if (response.status === 200)
         MainDashboardComponent.state = State.itemUpdated;
       else
         MainDashboardComponent.state = State.error;
-    })
-    
-
-    this.routeToHomePage();
+        this.routeToHomePage();
+    });
   }
 
   routeToHomePage(): void {

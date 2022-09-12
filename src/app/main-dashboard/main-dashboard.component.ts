@@ -29,15 +29,20 @@ export class MainDashboardComponent implements OnInit {
     if (this.taskName == "")
       return;
     
-    this.taskService.addTask(this.taskName).subscribe((result) => {
-      if (result)
+    this.taskService.addTask(this.taskName).subscribe((response) => {
+      if (response.status == 200)
         MainDashboardComponent.state = State.newItemAdded;
-      else
+      else {
         MainDashboardComponent.state = State.error;
+        alert(response.body);
+      }
+      
+      this.homeComponent.loadTasks();
+      
     });
     
     this.taskName = "";
-    this.homeComponent.loadTasks();
+    
   }
 
   getState(): State {

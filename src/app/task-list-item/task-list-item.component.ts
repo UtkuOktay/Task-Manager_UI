@@ -21,15 +21,15 @@ export class TaskListItemComponent implements OnInit {
     if (this.task == null)
       return;
     
-    this.taskService.deleteTask(this.task.id).subscribe(result => {
-      if (result)
+    this.taskService.deleteTask(this.task.id).subscribe(response => {
+      if (response.status === 200)
         MainDashboardComponent.state = State.itemDeleted;
       else
         MainDashboardComponent.state = State.error;
-    })
+        
+        this.homeComponent.loadTasks();
+    });
     
-      
-    this.homeComponent.loadTasks();
   }
 
   routeToEditPage(): void {

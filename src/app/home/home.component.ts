@@ -15,9 +15,9 @@ export class HomeComponent implements OnInit {
   
   loadTasks(): void {
     this.taskService.getTasks().subscribe((tasks) => {
-      this.tasks = tasks;
+      this.tasks = JSON.parse(JSON.stringify(tasks));
+      this.tasks?.sort((t1, t2) => t2.id - t1.id);
     });
-    
   }
   
 
