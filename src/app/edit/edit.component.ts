@@ -34,7 +34,7 @@ export class EditComponent implements OnInit {
   }
 
   submit(): void {
-    if (this.task == undefined || this.name == undefined || this.isCompleted == undefined)
+    if (this.task === undefined || this.name === undefined || this.isCompleted === undefined)
       return;
       
     this.taskService.updateTask(new TaskRecord(this.task?.id, this.name, this.isCompleted)).subscribe(response => {

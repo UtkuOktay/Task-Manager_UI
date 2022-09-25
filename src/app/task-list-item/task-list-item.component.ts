@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { HomeComponent } from '../home/home.component';
 import { MainDashboardComponent, State } from '../main-dashboard/main-dashboard.component';
@@ -10,12 +10,10 @@ import { TaskRecord } from '../TaskRecord';
   templateUrl: './task-list-item.component.html',
   styleUrls: ['./task-list-item.component.css']
 })
-export class TaskListItemComponent implements OnInit {
+export class TaskListItemComponent {
   @Input() task?: TaskRecord;
   
   constructor(private taskService: TaskService, private homeComponent: HomeComponent, private router: Router) { }
-
-  ngOnInit(): void {  }
 
   deleteButtonClick(): void {
     if (this.task == null)

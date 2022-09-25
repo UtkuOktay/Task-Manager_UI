@@ -6,5 +6,5 @@
             <button id="submitButton" type="submit">Submit</button>
         </form>
     </div>
-    <span id="infoMessage" *ngIf="getState() != 0">{{stateDict.get(getState())}}</span>
+    <span id="infoMessage" *ngIf="getState() !== 0">{{stateDict.get(getState())}}</span>
 </div>

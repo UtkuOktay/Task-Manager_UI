@@ -14,7 +14,7 @@ export class MainDashboardComponent implements OnInit {
   taskName: string = "";
   static state: State = State.none;
   
-  stateDict = new Map();
+  stateDict: Map<State, string> = new Map();
 
   constructor(private taskService: TaskService, private homeComponent: HomeComponent) { }
 
