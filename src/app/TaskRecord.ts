@@ -10,6 +10,6 @@ export class TaskRecord {
     }
 
     equals(task: TaskRecord): boolean {
-        return this.id == task.id && this.name == task.name && this.isCompleted == task.isCompleted;
+        return this.id === task.id && this.name === task.name && this.isCompleted === task.isCompleted;
     }
 }
